@@ -89,9 +89,9 @@ class RTPThread extends Thread {
         double bet = 1000;
         double ThreadRTP = 0;
         double totalBet = bet * numExecution;
+        Random r = new Random();
 
         for(int i = 0; i < numExecution; i++){
-            Random r = new Random();
             winning = 0;
             double landedNumber = (double) r.nextInt(37);
             // Assuming that evens are blacks and odds are red
@@ -100,9 +100,11 @@ class RTPThread extends Thread {
             ThreadRTP += (winning/bet);
         }
         ThreadRTP /= numExecution;
+        System.out.println("Thread " + threadNum + " calculations done");
         try{
             // after thread calculates all RTP for the thread, update the main RTP value
             sem.acquire();
+            System.out.println("Thread " + threadNum + " acquired sem");
             result.RTPTotal = result.RTPTotal + ThreadRTP;
             DecimalFormat df = new DecimalFormat("#.##");
             System.out.println("Thread "+ threadNum + " finished. RTP from this thread: "+ df.format(ThreadRTP * 100)); 
